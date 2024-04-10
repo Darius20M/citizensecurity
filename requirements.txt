@@ -1,0 +1,8 @@
+asgiref==3.8.1
+Django==4.2.11
+django-simple-history==3.5.0
+django-soft-delete==1.0.12
+djangorestframework==3.14.0
+drf-flex-fields==1.0.2
+sqlparse==0.4.4
+typing_extensions==4.11.0
