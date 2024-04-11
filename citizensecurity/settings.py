@@ -9,8 +9,13 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+import os
 import datetime
 from pathlib import Path
+from environ import Env
+
+env = Env()
+env.read_env()
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -50,10 +55,19 @@ INSTALLED_APPS = [
     'dj_rest_auth.registration',
     'simple_history',
     'django_filters',
+    'post_office',
     'security',
 
 ]
 SITE_ID = 1
+
+EMAIL_BACKEND = 'post_office.EmailBackend'
+EMAIL_HOST = env.str('DJANGO_EMAIL_HOST', default='none')
+EMAIL_USE_TLS = env.str('DJANGO_EMAIL_TLS', default='none')
+EMAIL_PORT = env.str('DJANGO_EMAIL_PORT', default='none')
+EMAIL_HOST_USER = env.str('DJANGO_EMAIL_USER', default='none')
+DJANGO_FROM_EMAIL = env.str('DJANGO_FROM_EMAIL', default='none')
+EMAIL_HOST_PASSWORD = env.str('DJANGO_EMAIL_PASSWORD', default='none')
 
 
 MIDDLEWARE = [
@@ -89,6 +103,22 @@ TEMPLATES = [
             ],
         },
     },
+    {
+        'BACKEND': 'post_office.template.backends.post_office.PostOfficeTemplates',
+        'APP_DIRS': True,
+        'DIRS': [],
+        'OPTIONS': {
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.template.context_processors.request',
+            ]
+        }
+    }
 ]
 
 WSGI_APPLICATION = 'citizensecurity.wsgi.application'
@@ -129,6 +159,8 @@ REST_AUTH = {
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
     'REGISTER_SERIALIZER': 'security.serializers.RegisterSerializer',
+    'LOGIN_SERIALIZER': 'security.serializers.LoginSerializer',
+
 }
 
 SIMPLE_JWT = {
@@ -137,8 +169,9 @@ SIMPLE_JWT = {
 }
 DRF_API_LOGGER_DATABASE = True
 
-ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
+ACCOUNT_USERNAME_REQUIRED = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 
@@ -203,3 +236,8 @@ CORS_ALLOW_HEADERS = [
     'x-app-key',
     'Accept-Encoding',
 ]
+
+
+POST_OFFICE = {
+    'TEMPLATE_ENGINE': 'post_office',
+}

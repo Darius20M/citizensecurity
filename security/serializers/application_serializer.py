@@ -28,3 +28,10 @@ class ApplicationSerializer(FlexFieldsModelSerializer):
             'created_by': (UserSerializer, {'many': False, 'read_only': True}),
             'modified_by': (UserSerializer, {'many': False, 'read_only': True})
         }
+
+    def update(self, instance, validated_data):
+        instance.modified_by = self.context["request"].user
+        return super().update(instance, validated_data)
+    def create(self, validated_data):
+        validated_data["created_by"] = self.context["request"].user
+        return super().create(validated_data)
