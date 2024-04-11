@@ -2,3 +2,4 @@ from .user_serializer import UserSerializer
 from .application_serializer import ApplicationSerializer
 from .register_serializer import RegisterSerializer
 from .login_serializer import LoginSerializer
+from .resend_email_verification_serializer import ResendEmailVerificationSerializer
