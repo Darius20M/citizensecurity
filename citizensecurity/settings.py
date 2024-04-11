@@ -45,6 +45,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'drf_api_logger_with_user',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
     'simple_history',
@@ -67,6 +68,7 @@ MIDDLEWARE = [
     'simple_history.middleware.HistoryRequestMiddleware',
     'security.middleware.AppRequestMiddleware',
     'allauth.account.middleware.AccountMiddleware',
+    'drf_api_logger_with_user.middleware.api_logger_middleware.APILoggerMiddleware',
 
 ]
 
@@ -126,14 +128,17 @@ REST_AUTH = {
     'JWT_EXPIRATION_DELTA': USER_SESSION_EXPIRE_TIME,
     'JWT_REFRESH_EXPIRATION_DELTA': datetime.timedelta(days=7),
     'JWT_AUTH_HEADER_PREFIX': 'Bearer',
-
+    'REGISTER_SERIALIZER': 'security.serializers.RegisterSerializer',
 }
 
 SIMPLE_JWT = {
     "ACCESS_TOKEN_LIFETIME": USER_SESSION_EXPIRE_TIME,
     'REFRESH_TOKEN_LIFETIME': datetime.timedelta(days=7),
 }
+DRF_API_LOGGER_DATABASE = True
 
+ACCOUNT_AUTHENTICATION_METHOD = 'username_email'
+ACCOUNT_EMAIL_REQUIRED = True
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 

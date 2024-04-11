@@ -11,11 +11,11 @@ from security.serializers import ApplicationSerializer
 
 
 class ApplicationViewSet(ModelViewSet):
-    permission_classes = [
+    """permission_classes = [
         AppAuthenticatedPermission,
         AppStaffPermission,
         IsAuthenticated
-    ]
+    ]"""
     serializer_class = ApplicationSerializer
     queryset = ApplicationModel.objects.all()
     pagination_class = StandardResultsSetPagination
