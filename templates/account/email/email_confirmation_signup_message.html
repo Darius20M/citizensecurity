@@ -1,10 +1,23 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Title</title>
-</head>
-<body>
+{% extends "base_notification.html" %}
+{% load i18n %}
 
-</body>
-</html>
+{% block title %}
+    {% blocktranslate %}
+        Welcome to {{ BUSINESS_NAME }} - Verify Your Email and Activate Your Account
+    {% endblocktranslate %}
+{% endblock title %}
+
+{% block content %}
+    <p style="font-size: 16px; line-height: 1.5; color: #333;">{% translate 'Dear {{ user_name }},' %}</p>
+    <p style="font-size: 16px; line-height: 1.5; color: #333;">{% blocktranslate %}
+        Welcome to {{ business_name }}! We're delighted to have you join our community. Our mission is to provide you with exceptional service and support as you embark on your journey with us.
+        Before you get started, we kindly ask you to verify your email address to ensure the security of your account.
+    {% endblocktranslate %}</p>
+    <p style="font-size: 16px; line-height: 1.5; color: #333;">{% translate "Thank you for choosing us. We're excited to have you on board!" %}</p>
+    
+    <hr style="border: 1px solid #ccc; margin: 20px 0;">
+    
+    <p style="font-size: 18px; font-weight: bold; line-height: 1.5; color: #333;">{% blocktranslate %} Your verification code is: {% endblocktranslate %} <span style="color: #007bff;">{{ VERIFICATION_CODE }}</span></p>
+    
+    <p style="font-size: 16px; line-height: 1.5; color: #333;">{% translate 'Please copy this code to verify your account.' %}</p>
+{% endblock content %}

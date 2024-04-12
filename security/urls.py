@@ -9,6 +9,5 @@ router.register(r'users', UserViewSet, basename='user')
 
 
 urlpatterns = [
-
-]
+    ]
 urlpatterns += router.urls

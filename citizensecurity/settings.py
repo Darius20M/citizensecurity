@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django.contrib.humanize',
     'corsheaders',
     'rest_framework',
     'rest_framework.authtoken',
@@ -56,6 +57,7 @@ INSTALLED_APPS = [
     'simple_history',
     'django_filters',
     'post_office',
+    'django_phonenumbers',
     'security',
 
 ]
@@ -135,6 +137,7 @@ DATABASES = {
 }
 
 USER_SESSION_EXPIRE_TIME = datetime.timedelta(days=3)  # Value expression days
+ACCOUNT_ADAPTER = 'security.adapters.CustomAccountAdapter'
 
 
 REST_FRAMEWORK = {
@@ -172,8 +175,11 @@ DRF_API_LOGGER_DATABASE = True
 ACCOUNT_AUTHENTICATION_METHOD = 'email'
 ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
+ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
+
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_HTTPONLY = True
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -240,4 +246,6 @@ CORS_ALLOW_HEADERS = [
 
 POST_OFFICE = {
     'TEMPLATE_ENGINE': 'post_office',
+    'DEFAULT_PRIORITY': 'now',
+
 }
