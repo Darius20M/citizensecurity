@@ -1,11 +1,15 @@
-from django.conf import settings
-from django.contrib.auth import authenticate, get_user_model
-from django.urls import exceptions as url_exceptions
-from django.utils.translation import gettext_lazy as _
-from rest_framework import exceptions, serializers
 
+from django.contrib.auth import authenticate, get_user_model
+from django.core.cache import cache
+from rest_framework import serializers, exceptions
+from django.utils.translation import gettext_lazy as _
+from django.urls import exceptions as url_exceptions
+from django.conf import settings
+
+import logging
 # Get the UserModel
 UserModel = get_user_model()
+logger = logging.getLogger(__name__)
 
 
 class LoginSerializer(serializers.Serializer):
@@ -106,12 +110,37 @@ class LoginSerializer(serializers.Serializer):
             raise serializers.ValidationError(_('E-mail is not verified.'))
 
     def validate(self, attrs):
+        ip_address = self.context['request'].META.get("REMOTE_ADDR")
+        cache_key = f"login_attempts:{ip_address}"
+        login_attempts = cache.get(cache_key, 0)
+
+        blocked_cache_key = f"blocked_ips:{ip_address}"
+        blocked_ip = cache.get(blocked_cache_key)
+
+        if blocked_ip:
+            logger.warning(f"Blocked login attempt from IP address: {ip_address}")
+            raise exceptions.ValidationError(
+                _("Your IP address is temporarily blocked. Please try again later.")
+            )
+
+        if login_attempts >= settings.BRUTE_FORCE_THRESHOLD:
+            logger.warning(f"Potential brute force attack detected from IP address: {ip_address}")
+
+            # Bloquear temporalmente la dirección IP
+            cache.set(blocked_cache_key, True, timeout=settings.BRUTE_FORCE_TIMEOUT)
+
+            raise exceptions.ValidationError(
+                _("Too many login attempts. Your IP address is temporarily blocked. Please try again later.")
+            )
+
         username = attrs.get('username')
         email = attrs.get('email')
         password = attrs.get('password')
         user = self.get_auth_user_using_orm(username, email, password)
 
         if not user:
+            logger.warning(f"Failed login attempt for username/email: {username}/{email} from IP address: {ip_address}")
+            cache.set(cache_key, login_attempts + 1, timeout=settings.BRUTE_FORCE_TIMEOUT)
             msg = _('Unable to log in with provided credentials.')
             raise exceptions.ValidationError(msg)
 
@@ -121,6 +150,8 @@ class LoginSerializer(serializers.Serializer):
         # If required, is the email verified?
         if 'dj_rest_auth.registration' in settings.INSTALLED_APPS:
             self.validate_email_verification_status(user, email=email)
+
+        cache.delete(cache_key)
 
         attrs['user'] = user
         return attrs

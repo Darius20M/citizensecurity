@@ -13,6 +13,7 @@ from dj_rest_auth.models import TokenModel
 
 from dj_rest_auth.utils import jwt_encode
 
+from security.permissions import AppAuthenticatedPermission, AppStaffPermission
 
 sensitive_post_parameters_m = method_decorator(
     sensitive_post_parameters('password1', 'password2'),
@@ -21,7 +22,10 @@ sensitive_post_parameters_m = method_decorator(
 
 class RegisterViewSet(CreateAPIView):
     serializer_class = api_settings.REGISTER_SERIALIZER
-    permission_classes = api_settings.REGISTER_PERMISSION_CLASSES
+    permission_classes = [
+        AppAuthenticatedPermission,
+        AppStaffPermission
+    ]
     token_model = TokenModel
     throttle_scope = 'dj_rest_auth'
 

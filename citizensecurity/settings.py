@@ -188,6 +188,10 @@ OTP_EMAIL_BODY_HTML_TEMPLATE_PATH = 'account/email/email_confirmation_signup_mes
 OTP_EMAIL_SUBJECT = 'Email Confirmation'
 OTP_EMAIL_TOKEN_VALIDITY = 300
 
+#prevenir fuerza fruta
+BRUTE_FORCE_THRESHOLD = 5
+BRUTE_FORCE_TIMEOUT = 120
+
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
 

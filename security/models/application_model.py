@@ -20,7 +20,7 @@ class ApplicationModel(models.Model):
     user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='application', on_delete=models.PROTECT)
     key = models.CharField(max_length=128, blank=True, default='', db_index=True)
     secret = models.CharField(max_length=128, blank=True, default='', db_index=True)
-    is_2fa = models.BooleanField(default=True)
+    two_factor_enabled = models.BooleanField(default=False)
     is_staff = models.BooleanField(default=False)
     is_enabled = models.BooleanField(default=True)
     parent = models.ForeignKey('self', related_name='child', null=True, blank=True, on_delete=models.PROTECT,

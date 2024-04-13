@@ -1,1 +1,2 @@
 from .application_model import ApplicationModel
+from .two_factor_settings_models import TwoFactorSettingsModel
