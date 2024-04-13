@@ -1,0 +1,18 @@
+{% extends "base_notification.html" %}
+{% load i18n %}
+
+{% block title %}
+    {% translate "Two-Factor Authentication Code" %}
+{% endblock title %}
+
+{% block preheader %}
+    {% translate "Use this code to complete the two-factor authentication process." %}
+{% endblock preheader %}
+
+{% block content %}
+    <p>{% translate 'Hi there,' %}</p>
+    <p>{% blocktranslate %} Use the following two-factor authentication code to complete the process. {% endblocktranslate %}</p>
+    <h2>{% block verification_code %}{{ otp }}{% endblock verification_code %}</h2>
+    <p>{% translate "Enter this code on the two-factor authentication page." %}</p>
+    <p>{% translate "If you didn't request this code, please ignore this email." %}</p>
+{% endblock content %}

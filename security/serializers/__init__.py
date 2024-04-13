@@ -4,3 +4,5 @@ from .register_serializer import RegisterSerializer
 from .login_serializer import LoginSerializer
 from .confirm_email_otp_serializer import ConfirmEmailOTPSerializer
 from .resend_confirm_email_serializer import ResendConfirmEmailSerializer
+from .verification_code_serializer import VerificationCodeSerializer
+from .resend_code_serializer import ResendCodeSerializer

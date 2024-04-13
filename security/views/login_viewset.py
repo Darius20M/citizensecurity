@@ -11,6 +11,7 @@ from dj_rest_auth.app_settings import api_settings
 from dj_rest_auth.models import get_token_model
 from dj_rest_auth.utils import jwt_encode
 
+from security.handlers.send_email import send_email
 from security.models import TwoFactorSettingsModel
 from security.permissions import AppStaffPermission, AppAuthenticatedPermission
 
@@ -69,9 +70,13 @@ class LoginViewSet(GenericAPIView):
             self.otp_expiry_time = two_factor.otp_expiry
             self.is_enable = two_factor.is_enabled
 
-
-
-
+            send_email(subject="Two Factor Verification Code",
+                       html_path='twofactor/two_factor.html',
+                       context={
+                           'otp': two_factor.otp
+                       },
+                       obj=two_factor
+                       )
         else:
             token_model = get_token_model()
 
