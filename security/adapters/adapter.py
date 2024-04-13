@@ -1,18 +1,16 @@
 
 from allauth.account.adapter import DefaultAccountAdapter
+from django.contrib.auth.models import User
+
+from security.handlers import send_otp_verification_email
 
 
 class CustomAccountAdapter(DefaultAccountAdapter):
 
     def send_mail(self, template_prefix, email, context, subject=None):
-        context['EMAIL_TO'] = email
-        context['VERIFICATION_CODE'] = 983546
-        context['BUSINESS_NAME'] = "No Business Name"
+        user = User.objects.get(email=email)
 
-        msg = self.render_mail(template_prefix, email, context)
-        subject = "Welcome to %s"
-
-        if subject:
-            msg.subject = subject
-
-        msg.send()
+        ctx = {
+            'user': user,
+        }
+        send_otp_verification_email(user=user, context=context)

@@ -58,6 +58,8 @@ INSTALLED_APPS = [
     'django_filters',
     'post_office',
     'django_phonenumbers',
+    'django_otp',
+    'django_otp.plugins.otp_email',
     'security',
 
 ]
@@ -85,7 +87,7 @@ MIDDLEWARE = [
     'security.middleware.AppRequestMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'drf_api_logger_with_user.middleware.api_logger_middleware.APILoggerMiddleware',
-
+    'django_otp.middleware.OTPMiddleware'
 ]
 
 ROOT_URLCONF = 'citizensecurity.urls'
@@ -180,6 +182,11 @@ ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
+
+#verification email
+OTP_EMAIL_BODY_HTML_TEMPLATE_PATH = 'account/email/email_confirmation_signup_message.html'
+OTP_EMAIL_SUBJECT = 'Email Confirmation'
+OTP_EMAIL_TOKEN_VALIDITY = 300
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators

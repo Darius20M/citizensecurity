@@ -2,4 +2,5 @@ from .application_viewset import ApplicationViewSet
 from .user_viewset import UserViewSet
 from .register_viewset import RegisterViewSet
 from .login_viewset import LoginViewSet
-from .resend_email_verification_viewset import ResendEmailVerificationViewSet
+from .confirm_email_otp_viewset import ConfirmEmailOTPViewSet
+from .resend_confirm_email_otp_viewset import ResendConfirmEmailViewSet

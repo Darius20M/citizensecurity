@@ -3,12 +3,12 @@ from django.views.generic import TemplateView
 
 from dj_rest_auth.registration.views import VerifyEmailView, ResendEmailVerificationView
 
-from security.views import RegisterViewSet, ResendEmailVerificationViewSet
+from security.views import RegisterViewSet, ResendConfirmEmailViewSet, ConfirmEmailOTPViewSet
 
 urlpatterns = [
     path('', RegisterViewSet.as_view(), name='rest_register'),
-    path('verify-email/', VerifyEmailView.as_view(), name='rest_verify_email'),
-    path('resend_email/', ResendEmailVerificationViewSet.as_view(), name="rest_resend_email"),
+    path('verify_email/', ConfirmEmailOTPViewSet.as_view(), name='rest_verify_email'),
+    path('resend_email/', ResendConfirmEmailViewSet.as_view(), name="rest_resend_email"),
 
     # This url is used by django-allauth and empty TemplateView is
     # defined just to allow reverse() call inside app, for example when email

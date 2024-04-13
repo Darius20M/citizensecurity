@@ -17,20 +17,20 @@ from security.managers.application_manager import ApplicationManager
 class ApplicationModel(models.Model):
     name = models.CharField(max_length=80, unique=True, null=False, blank=False)
     code = models.CharField(max_length=30, null=False, blank=False, default='APP')
-    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='application', on_delete=models.CASCADE)
+    user = models.OneToOneField(settings.AUTH_USER_MODEL, related_name='application', on_delete=models.PROTECT)
     key = models.CharField(max_length=128, blank=True, default='', db_index=True)
     secret = models.CharField(max_length=128, blank=True, default='', db_index=True)
     is_2fa = models.BooleanField(default=True)
     is_staff = models.BooleanField(default=False)
     is_enabled = models.BooleanField(default=True)
-    parent = models.ForeignKey('self', related_name='child', null=True, blank=True, on_delete=models.CASCADE,
+    parent = models.ForeignKey('self', related_name='child', null=True, blank=True, on_delete=models.PROTECT,
                                default=None)
     #logo = models.FileField(upload_to=path_file, default=None)
     about = models.TextField(null=True, blank=True)
     created = models.DateTimeField(default=timezone.now, editable=False)
-    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='application_created', on_delete=models.CASCADE)
+    created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='application_created', on_delete=models.PROTECT)
     modified = models.DateTimeField(default=timezone.now, editable=False)
-    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='application_modified', on_delete=models.CASCADE)
+    modified_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='application_modified', on_delete=models.PROTECT)
     history = HistoricalRecords(table_name='tsec_hist_application')
 
     objects = ApplicationManager()
