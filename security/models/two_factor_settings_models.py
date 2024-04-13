@@ -33,10 +33,10 @@ class TwoFactorSettingsModel(models.Model):
     def generate(self):
         if self.token_expiry is None or self.token_expiry < timezone.now():
             self.token = self.generate_token()
-            self.token_expiry = timezone.now() + timedelta(hours=1)
+            self.token_expiry = timezone.now() + timedelta(seconds=settings.OTP_EXPIRY_SECONDS)
 
         self.otp = self.generate_random_digits()
-        self.otp_expiry = timezone.now() + timedelta(hours=1)
+        self.otp_expiry = timezone.now() + timedelta(seconds=settings.TOKEN_EXPIRY_SECONDS)
         self.save()
 
     def generate_random_digits(self, n=6):

@@ -14,6 +14,7 @@ from dj_rest_auth.utils import jwt_encode
 from security.handlers.send_email import send_email
 from security.models import TwoFactorSettingsModel
 from security.permissions import AppStaffPermission, AppAuthenticatedPermission
+from security.utils.session_handler import session_handler
 
 
 class LoginViewSet(GenericAPIView):
@@ -82,6 +83,7 @@ class LoginViewSet(GenericAPIView):
 
             if api_settings.USE_JWT:
                 self.access_token, self.refresh_token = jwt_encode(self.user)
+                session_handler(token=self.access_token, user=self.user, request=self.request)
             elif token_model:
                 self.token = api_settings.TOKEN_CREATOR(token_model, self.user, self.serializer)
 

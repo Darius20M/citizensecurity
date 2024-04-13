@@ -13,6 +13,8 @@ from dj_rest_auth.app_settings import api_settings
 from rest_framework.response import Response
 from rest_framework import status
 
+from security.utils.session_handler import session_handler
+
 
 class VerifyCodeViewSet(GenericAPIView):
     permission_classes = (
@@ -58,7 +60,7 @@ class VerifyCodeViewSet(GenericAPIView):
 
         if api_settings.USE_JWT:
             self.access_token, self.refresh_token = jwt_encode(self.user)
-            #session_handler(token=self.access_token, user=self.user, request=self.request)
+            session_handler(token=self.access_token, user=self.user, request=self.request)
         elif token_model:
             self.token = api_settings.TOKEN_CREATOR(token_model, self.user, self.serializer)
 

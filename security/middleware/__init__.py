@@ -1,1 +1,2 @@
 from .app_request_middleware import AppRequestMiddleware
+from .session_update_middleware import SessionUpdateMiddleware

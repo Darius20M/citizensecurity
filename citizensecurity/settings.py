@@ -20,7 +20,6 @@ env.read_env()
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/4.2/howto/deployment/checklist/
 
@@ -31,7 +30,6 @@ SECRET_KEY = 'django-insecure-dk-8%8-v%xfgh3h2van0x7^&zr#uu^te%5em-jpep992ii8pq)
 DEBUG = True
 
 ALLOWED_HOSTS = []
-
 
 # Application definition
 
@@ -51,6 +49,7 @@ INSTALLED_APPS = [
     'django.contrib.sites',
     'allauth',
     'allauth.account',
+    'django_user_agents',
     'drf_api_logger_with_user',
     'allauth.socialaccount',
     'dj_rest_auth.registration',
@@ -64,6 +63,7 @@ INSTALLED_APPS = [
 
 ]
 SITE_ID = 1
+USER_AGENTS_CACHE = 'default'
 
 EMAIL_BACKEND = 'post_office.EmailBackend'
 EMAIL_HOST = env.str('DJANGO_EMAIL_HOST', default='none')
@@ -72,7 +72,6 @@ EMAIL_PORT = env.str('DJANGO_EMAIL_PORT', default='none')
 EMAIL_HOST_USER = env.str('DJANGO_EMAIL_USER', default='none')
 DJANGO_FROM_EMAIL = env.str('DJANGO_FROM_EMAIL', default='none')
 EMAIL_HOST_PASSWORD = env.str('DJANGO_EMAIL_PASSWORD', default='none')
-
 
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
@@ -85,9 +84,11 @@ MIDDLEWARE = [
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
     'security.middleware.AppRequestMiddleware',
+    'security.middleware.SessionUpdateMiddleware',
     'allauth.account.middleware.AccountMiddleware',
     'drf_api_logger_with_user.middleware.api_logger_middleware.APILoggerMiddleware',
-    'django_otp.middleware.OTPMiddleware'
+    'django_otp.middleware.OTPMiddleware',
+    'django_user_agents.middleware.UserAgentMiddleware',
 ]
 
 ROOT_URLCONF = 'citizensecurity.urls'
@@ -127,7 +128,6 @@ TEMPLATES = [
 
 WSGI_APPLICATION = 'citizensecurity.wsgi.application'
 
-
 # Database
 # https://docs.djangoproject.com/en/4.2/ref/settings/#databases
 
@@ -140,7 +140,6 @@ DATABASES = {
 
 USER_SESSION_EXPIRE_TIME = datetime.timedelta(days=3)  # Value expression days
 ACCOUNT_ADAPTER = 'security.adapters.CustomAccountAdapter'
-
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': (
@@ -183,14 +182,18 @@ SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_HTTPONLY = True
 
-#verification email
+# verification email
 OTP_EMAIL_BODY_HTML_TEMPLATE_PATH = 'account/email/email_confirmation_signup_message.html'
 OTP_EMAIL_SUBJECT = 'Email Confirmation'
 OTP_EMAIL_TOKEN_VALIDITY = 300
 
-#prevenir fuerza fruta
+# prevenir fuerza fruta
 BRUTE_FORCE_THRESHOLD = 5
 BRUTE_FORCE_TIMEOUT = 120
+
+# two fator
+OTP_EXPIRY_SECONDS = 300
+TOKEN_EXPIRY_SECONDS = 300
 
 # Password validation
 # https://docs.djangoproject.com/en/4.2/ref/settings/#auth-password-validators
@@ -210,7 +213,6 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
-
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
 
@@ -221,7 +223,6 @@ TIME_ZONE = 'UTC'
 USE_I18N = True
 
 USE_TZ = True
-
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/4.2/howto/static-files/
@@ -253,7 +254,6 @@ CORS_ALLOW_HEADERS = [
     'x-app-key',
     'Accept-Encoding',
 ]
-
 
 POST_OFFICE = {
     'TEMPLATE_ENGINE': 'post_office',
