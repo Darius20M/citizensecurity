@@ -10,8 +10,8 @@ from simple_history.models import HistoricalRecords
 from security.managers.application_manager import ApplicationManager
 
 
-"""def path_file(self, filename):
-    return "security/applications/%s/%s" % (self.user.username, filename)"""
+def path_file(self, filename):
+    return "security/applications/%s/%s" % (self.user.username, filename)
 
 
 class ApplicationModel(models.Model):
@@ -25,7 +25,7 @@ class ApplicationModel(models.Model):
     is_enabled = models.BooleanField(default=True)
     parent = models.ForeignKey('self', related_name='child', null=True, blank=True, on_delete=models.PROTECT,
                                default=None)
-    #logo = models.FileField(upload_to=path_file, default=None)
+    logo = models.FileField(upload_to=path_file, null=True, blank=True ,default=None)
     about = models.TextField(null=True, blank=True)
     created = models.DateTimeField(default=timezone.now, editable=False)
     created_by = models.ForeignKey(settings.AUTH_USER_MODEL, related_name='application_created', on_delete=models.PROTECT)

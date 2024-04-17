@@ -65,6 +65,21 @@ INSTALLED_APPS = [
 SITE_ID = 1
 USER_AGENTS_CACHE = 'default'
 
+
+
+DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+GS_BUCKET_NAME = 'citizen00'
+STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
+MEDIA_ROOT = "media/"
+UPLOAD_ROOT = 'media/uploads'
+MEDIA_URL = 'https://storage.googleapis.com/{}/'.format(GS_BUCKET_NAME)
+
+from google.oauth2 import service_account
+GS_CREDENTIALS = service_account.Credentials.from_service_account_file(
+    os.path.join(BASE_DIR, "citizensecurity/google_cloud/credentials.json")
+)
+
+
 EMAIL_BACKEND = 'post_office.EmailBackend'
 EMAIL_HOST = env.str('DJANGO_EMAIL_HOST', default='none')
 EMAIL_USE_TLS = env.str('DJANGO_EMAIL_TLS', default='none')
