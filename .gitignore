@@ -9,6 +9,7 @@ venv
 *.log
 *.pot
 *.pyc
+/citizensecurity/google_cloud/credentials.json
 
 /db.sqlite3
 /geckodriver.log
