@@ -52,4 +52,18 @@ python manage.py runserver
 Visita `http://localhost:8000/` en tu navegador para acceder a la aplicación.
 
 ## Contribución
-¡Las contribuciones son bienvenidas! Si tienes sugerencias, problemas o deseas mejorar el proyecto, por favor crea un issue o una pull request en este repositorio.
+
+¡Las contribuciones son bienvenidas! Si tienes sugerencias, problemas o deseas mejorar el proyecto, aquí hay algunas pautas para contribuir:
+
+### Creación de Issues
+- Si encuentras un problema en el proyecto o tienes una sugerencia de mejora, por favor crea un issue en este repositorio.
+- Asegúrate de describir claramente el problema o la sugerencia, incluyendo pasos para reproducirlo si es un problema.
+
+### Envío de Pull Requests
+- Si deseas contribuir con código al proyecto, puedes enviar una pull request desde tu propio fork.
+- Antes de enviar una pull request, asegúrate de que tu código cumpla con los estándares de codificación del proyecto y de que esté probado.
+- Describe claramente los cambios que estás proponiendo en la pull request.
+- Asegúrate de que tu pull request esté dirigida a la rama adecuada del repositorio.
+
+¡Gracias por contribuir al proyecto!
+
