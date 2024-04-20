@@ -1,6 +1,7 @@
 from django.conf import settings
 from django.db import models
 from django.utils import timezone
+from django.utils.translation import gettext_lazy as _
 
 from security.models.session_history_model import SessionHistoryModel
 from security.utils.constants import DEVICE_TYPES
@@ -27,7 +28,7 @@ class SessionModel(models.Model):
     modified = models.DateTimeField(default=timezone.now)
 
     class Meta:
-        db_table = 'tsec_sessions'
+        db_table = _('tsec_sessions')
         app_label = 'security'
         verbose_name = 'Session'
         verbose_name_plural = 'Sessions'

@@ -6,6 +6,7 @@ from django.conf import settings
 from django.db import models
 from django.utils import timezone
 from simple_history.models import HistoricalRecords
+from django.utils.translation import gettext_lazy as _
 
 from security.managers.application_manager import ApplicationManager
 
@@ -36,8 +37,10 @@ class ApplicationModel(models.Model):
     objects = ApplicationManager()
 
     class Meta:
-        db_table = 'tsec_applications'
+        db_table = _('tsec_applications')
         app_label = 'security'
+        verbose_name = _('Application')
+        verbose_name_plural = _('Applications')
 
     def generate_key(self):
         # obtiene random UUID

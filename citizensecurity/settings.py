@@ -14,6 +14,8 @@ import datetime
 from pathlib import Path
 from environ import Env
 
+from security.permissions import AppAuthenticatedPermission, AppStaffPermission
+
 env = Env()
 env.read_env()
 
@@ -56,6 +58,8 @@ INSTALLED_APPS = [
     'simple_history',
     'django_filters',
     'post_office',
+    'drf_spectacular',
+    'drf_spectacular_sidecar',
     'django_phonenumbers',
     'django_otp',
     'django_otp.plugins.otp_email',
@@ -98,6 +102,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'security.middleware.AppRequestMiddleware',
     'security.middleware.SessionUpdateMiddleware',
     'allauth.account.middleware.AccountMiddleware',
@@ -162,6 +167,8 @@ REST_FRAMEWORK = {
         'dj_rest_auth.jwt_auth.JWTCookieAuthentication',
     ),
     'DEFAULT_PAGINATION_CLASS': 'rest_framework.pagination.LimitOffsetPagination',
+    'DEFAULT_SCHEMA_CLASS': 'drf_spectacular.openapi.AutoSchema',
+
 }
 REST_AUTH = {
     'USE_JWT': True,
@@ -230,8 +237,13 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.2/topics/i18n/
+from django.utils.translation import gettext_lazy as _
 
 LANGUAGE_CODE = 'en-us'
+LANGUAGES = [
+    ("es", _("Spanish")),
+    ('en', _('English')),
+]
 
 TIME_ZONE = 'UTC'
 
@@ -274,4 +286,16 @@ POST_OFFICE = {
     'TEMPLATE_ENGINE': 'post_office',
     'DEFAULT_PRIORITY': 'now',
 
+}
+
+SPECTACULAR_SETTINGS = {
+    'TITLE': 'Auth project',
+    'DESCRIPTION': 'Auth Project',
+    'VERSION': '1.0.0',
+    'SERVE_INCLUDE_SCHEMA': False,
+    'SWAGGER_UI_DIST': 'SIDECAR',
+    'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
+    'REDOC_DIST': 'SIDECAR',
+    'CONTACT': {'email': 'dariusjosedelacruz@gmail.com'},
+    'SERVE_PUBLIC': True,
 }
