@@ -92,6 +92,7 @@ EMAIL_HOST_USER = env.str('DJANGO_EMAIL_USER', default='none')
 DJANGO_FROM_EMAIL = env.str('DJANGO_FROM_EMAIL', default='none')
 EMAIL_HOST_PASSWORD = env.str('DJANGO_EMAIL_PASSWORD', default='none')
 
+
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'django.contrib.sessions.middleware.SessionMiddleware',
@@ -296,6 +297,7 @@ SPECTACULAR_SETTINGS = {
     'SWAGGER_UI_DIST': 'SIDECAR',
     'SWAGGER_UI_FAVICON_HREF': 'SIDECAR',
     'REDOC_DIST': 'SIDECAR',
-    'CONTACT': {'email': 'dariusjosedelacruz@gmail.com'},
+    'CONTACT': {'email': env.str('EMAIL_CONTACT', default='none')
+},
     'SERVE_PUBLIC': True,
 }
