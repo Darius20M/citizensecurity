@@ -1,4 +1,4 @@
-from django.urls import path
+from django.urls import path, include
 
 from dj_rest_auth.app_settings import api_settings
 
@@ -7,7 +7,7 @@ from dj_rest_auth.views import (
     PasswordResetView, UserDetailsView,
 )
 
-from security.views import LoginViewSet, VerifyCodeViewSet, ResendCodeViewSet
+from security.views import LoginViewSet, VerifyCodeViewSet, ResendCodeViewSet, GoogleAuthViewSet
 
 urlpatterns = [
     # URLs that do not require a session or valid token
@@ -20,6 +20,9 @@ urlpatterns = [
     path('logout/', LogoutView.as_view(), name='rest_logout'),
     path('user/', UserDetailsView.as_view(), name='rest_user_details'),
     path('password/change/', PasswordChangeView.as_view(), name='rest_password_change'),
+    path("google/login/", GoogleAuthViewSet.as_view(), name="google_login"),
+    path("accounts", include("allauth.urls")),
+
 ]
 
 if api_settings.USE_JWT:

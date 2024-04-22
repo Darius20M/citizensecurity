@@ -9,7 +9,6 @@ class CustomAccountAdapter(DefaultAccountAdapter):
 
     def send_mail(self, template_prefix, email, context, subject=None):
         user = User.objects.get(email=email)
-
         ctx = {
             'user': user,
         }

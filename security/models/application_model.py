@@ -78,3 +78,5 @@ class ApplicationModel(models.Model):
     def isStaff(self):
         return self.is_staff
 
+    def __str__(self):
+        return self.name
