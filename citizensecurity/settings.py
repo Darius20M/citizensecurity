@@ -104,7 +104,7 @@ MIDDLEWARE = [
     'django.contrib.messages.middleware.MessageMiddleware',
     'django.middleware.clickjacking.XFrameOptionsMiddleware',
     'simple_history.middleware.HistoryRequestMiddleware',
-    #'django.middleware.locale.LocaleMiddleware',
+    'django.middleware.locale.LocaleMiddleware',
     'security.middleware.AppRequestMiddleware',
     'security.middleware.SessionUpdateMiddleware',
     'allauth.account.middleware.AccountMiddleware',
@@ -202,9 +202,9 @@ ACCOUNT_EMAIL_REQUIRED = True
 ACCOUNT_USERNAME_REQUIRED = True
 ACCOUNT_EMAIL_VERIFICATION = 'mandatory'
 
-"""SESSION_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
 CSRF_COOKIE_SECURE = True
-SESSION_COOKIE_HTTPONLY = True"""
+SESSION_COOKIE_HTTPONLY = True
 
 # verification email
 OTP_EMAIL_BODY_HTML_TEMPLATE_PATH = 'account/email/email_confirmation_signup_message.html'
